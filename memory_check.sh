@@ -1,6 +1,5 @@
 #!/bin/bash
-
-desc() { echo "Sample invocation: memory_check -c 90 -w 60 -e email@mine.com" }
+desc () { echo "Sample invocation: memory_check -c 90 -w 60 -e email@mine.com" }
 
 while getopts ":c:w:e:" arg
  do
@@ -14,12 +13,14 @@ while getopts ":c:w:e:" arg
         e)
             email=${OPTARG}
             ;;
-        *)
-			desc
-			exit 1
-			;;
     esac
 done
+
+if [[ -z "$critical" | -z "$warning" | -z "$email" ]]
+then
+   desc
+   exit 
+fi
 
 if [ $warning -ge $critical ]; then
 	echo -e "Set the value of warning threshold less than $critical: \c "
